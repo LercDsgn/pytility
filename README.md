@@ -2,4 +2,4 @@
 Handy tools to work with Python.
 
 #### Current Tools: 
-- Colors [colors.py](/colors.py)
+- Colors [colors.py](/colors)
