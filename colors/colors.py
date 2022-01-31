@@ -11,11 +11,18 @@
 # all       ( returns a color with all positions (r/g/b) the same given value ) 
 # reduce    ( returns a color all other given colors subtracted from the first one )
 # blend     ( returns a color arithmetic mean of given colors )
-# closerTo  ( returns which other given color is closer to the first one)
+# closerTo  ( returns a color that is which other given color is closer to the first one)
 # generate  ( returns a randomly generated color [with more chance for a base color/colors (r/g/b) - if given] and [in a range - if given])
 # rgbToHex, rgbToHsl, hexToRgb, hexToHsl, hslToRgb, hslToHex, convert, toRgb, toHex, toHsl ( returns given color converted to another type )
 # isValid   ( returns a boolean based on whether the given tuple is a valid color representation or not )
 # getColor  ( returns a color from given tuple, list, dictionary, string, int, float etc.)
+# contrast  ( retrurns a color that is the opposite of given color
+# weightedMix ( returns a color that is mix of given colors, each color at given weight) // maybe add weightedSubtract too? or maybe merge randomMix with this?
+# randomMix  // maybe rename randomWeightedMix? maybe merge with weightedMix? maybe make randomSubtract?
+# getColorFromImage (img directory, x, y, origin="top left")
+# getDarkness // white-black intensity
+
+
 #                                   || --------------------------------- ||
 
 # pytility.(colorname)  - a default color object.
