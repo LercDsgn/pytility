@@ -33,18 +33,62 @@
 # pytility.contributors 
 # pytility.changelog
 # pytility.guide
-
-class Color:
+class ColorError(Exception):
     pass
-def mix(*colors: Color) -> Color:
+class Color:
+    def __init__(self, r, g, b):
+        higher, lower = [(i, f"at index {j+1}", ["red","green","blue"][j]) for j,i in enumerate((r,g,b)) if i > 255],      [(i, f"at index {j+1}", ["red","green","blue"][j]) for j,i in enumerate((r,g,b)) if i < 0]
+        higher1, lower1 = [", ".join((str(i), f"at index {j+1}", ["red","green","blue"][j])) for j,i in enumerate((r,g,b)) if i > 255],      [", ".join((str(i), f"at index {j+1}", ["red","green","blue"][j])) for j,i in enumerate((r,g,b)) if i < 0]
+        if not (len(higher) or len(lower)):
+            self.red = r
+            self.green = g
+            self.blue = b
+            self.tupled = (r,g,b)
+            self.dicted = { (["red", "green", "blue"][j], i) for j, i in enumerate((r,g,b))}
+        else: 
+            raise ColorError(f"Color object values must be between 0 and 255. Higher than 255: {higher1}, Lower than 0: {lower1}")
+
+def capColor(color):
+    if type(color)==Color: raise ColorError("Color to be capped must be type of Color class")
+    return 255 if color > 255 else 0 if color < 0 else color
+
+
+
+def colorFromTuple(source):
+  return Color(*source)
+    
+def cappedMix(*colors: Color) -> Color:
+    print (len(colors))
     """Mix given amount of colors."""
+    """
     res = [0]*3
     for color in colors:
         for index, param in enumerate(color):   
             if 0 > res[index]+param > 255: 
                 res[index] += param
-    return tuple(res)
+    """
+    col = lambda x: sum([eval(f"color.{x}") for color in colors])
+    r,g,b = col("red"), col("green"), col("blue")
+   
+    return Color(*map(capColor, (r,g,b)))
 
+def mix(*colors: Color) -> Color:
+    """Mix given amount of colors."""
+    """
+    res = [0]*3
+    for color in colors:
+        for index, param in enumerate(color):   
+            if 0 > res[index]+param > 255: 
+                res[index] += param
+    """
+    col = lambda x: sum([eval(f"color.{x}") for color in colors])
+    r,g,b = col("red"), col("green"), col("blue")
+   
+    try: 
+        return Color(r,g,b)
+    except ColorError:
+        raise ColorError("The values of the mix of colors must be between 0 and 255")
+        
 
 
 def subtract(*colors: Color) -> Color:
@@ -55,7 +99,7 @@ def subtract(*colors: Color) -> Color:
             for index, param in enumerate(color):
                 if type(param) == int and 0 < res[index] < 255:
                     res[index] -= param
-    return tuple(res)
+    return colorFromTuple(res)
 
 
 
@@ -69,3 +113,7 @@ def generateColor():
 
 
 
+a = Color(255, 0, 0)
+b = Color(1, 0, 255)
+z = cappedMix(a,b)
+print(z.tupled)
